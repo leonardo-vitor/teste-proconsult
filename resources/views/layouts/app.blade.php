@@ -6,6 +6,7 @@
     <title>{{ config('app.name', 'Support System') }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
 <div class="container mt-4">
@@ -16,14 +17,18 @@
                 <svg class="bi me-2" width="40" height="32">
                     <use xlink:href="#bootstrap"/>
                 </svg>
-                <span class="fs-4">Suporte de chamados</span>
+                <span class="fs-4">
+                    Suporte de chamados @if(Auth::check()) | {{ auth()->user()->type }} @endif
+                </span>
             </a>
+
 
             <ul class="nav nav-pills">
                 @if(!Auth::check())
                     <li class="nav-item"><a href="{{route('login')}}" class="nav-link">Login</a></li>
                     <li class="nav-item"><a href="{{route('register')}}" class="nav-link">Cadastre-se</a></li>
                 @else
+                    <li class="nav-item"><a href="{{route('dash.tickets')}}" class="nav-link">Chamados</a></li>
                     <li class="nav-item"><a href="{{route('logout')}}" class="nav-link">Sair</a></li>
                 @endif
             </ul>
@@ -31,6 +36,22 @@
     </div>
 
     <div class="b-example-divider"></div>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-6 col-lg-4">
+            @if(session()->has('success'))
+                <div class="alert alert-success">
+                    <p class="mb-0">{{ session()->get('success') }}</p>
+                </div>
+            @endif
+
+            @if(session()->has('error'))
+                <div class="alert alert-danger">
+                    <p class="mb-0">{{ session()->get('error') }}</p>
+                </div>
+            @endif
+        </div>
+    </div>
 
     @yield('content')
 </div>
