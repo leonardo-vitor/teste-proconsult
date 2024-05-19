@@ -14,6 +14,10 @@ class Ticket extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'status'
+    ];
+
     /**
      * @return BelongsTo
      */
@@ -27,6 +31,6 @@ class Ticket extends Model
      */
     public function responses(): HasMany
     {
-        $this->hasMany(TicketResponse::class, 'ticket_id', 'id');
+        return $this->hasMany(TicketResponse::class, 'ticket_id', 'id');
     }
 }

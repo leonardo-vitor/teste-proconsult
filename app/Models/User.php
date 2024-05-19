@@ -54,7 +54,7 @@ class User extends Authenticatable
      */
     public function tickets(): HasMany
     {
-        $this->hasMany(Ticket::class, 'user_id', 'id');
+        return $this->hasMany(Ticket::class, 'user_id', 'id');
     }
 
     /**
@@ -62,6 +62,6 @@ class User extends Authenticatable
      */
     public function ticketResponse(): HasMany
     {
-        $this->hasMany(TicketResponse::class, 'user_id', 'id');
+        return $this->hasMany(TicketResponse::class, 'user_id', 'id');
     }
 }
