@@ -2,22 +2,6 @@
 
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-12 col-md-6 col-lg-4">
-            @if(session()->has('success'))
-                <div class="alert alert-success">
-                    <p class="mb-0">{{ session()->get('success') }}</p>
-                </div>
-            @endif
-
-            @if(session()->has('error'))
-                <div class="alert alert-danger">
-                    <p class="mb-0">{{ session()->get('error') }}</p>
-                </div>
-            @endif
-        </div>
-    </div>
-
-    <div class="row justify-content-center">
         <div class="col-12 col-md-6 col-lg-4 col-xl-3">
             <div class="card">
                 <div class="card-header">Login</div>
