@@ -1,66 +1,100 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Documentação do Sistema de Suporte ao Cliente
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Introdução
 
-## About Laravel
+Este projeto é um sistema de suporte ao cliente desenvolvido em Laravel 11, com Docker. Ele permite que os clientes abram chamados para assistência e que os colaboradores da empresa respondam a esses chamados. O sistema inclui funcionalidades de autenticação, gestão de chamados, e envio de notificações por e-mail.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Funcionalidades
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   **Autenticação de Usuários:** Cadastro e login de usuários.
+-   **Tipos de Usuários:** Cliente e Colaborador.
+-   **Gerenciamento de Chamados:** Criação, visualização, e resposta a chamados.
+-   **Notificações:** Envio de e-mails para colaboradores quando um novo chamado é aberto.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Requisitos do Sistema
 
-## Learning Laravel
+-   PHP >= 8.2
+-   Composer
+-   Postgresql
+-   Laravel 11
+-  Docker
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Instalação
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Passo 1: Clonar o Repositório
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+`git clone https://github.com/seu-usuario/sistema-suporte-cliente.git
+cd sistema-suporte-cliente`
 
-## Laravel Sponsors
+### Passo 2: Instalar Dependências do Projeto
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+````php
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v $(pwd):/var/www/html \
+    -w /var/www/html \
+    laravelsail/php82-composer:latest \
+    composer install --ignore-platform-reqs
+````
 
-### Premium Partners
+### Passo 3: Configurar o Ambiente
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Crie um arquivo `.env` a partir do exemplo `.env.example`:
 
-## Contributing
+`cp .env.example .env`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Edite o arquivo `.env` com suas configurações de banco de dados e e-mail.
 
-## Code of Conduct
+### Passo 4: Migrar o Banco de Dados
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+`php artisan migrate`
 
-## Security Vulnerabilities
+### Passo 5: Iniciar o Servidor
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+`./vendor/bin/sail up`
 
-## License
+A aplicação estará disponível em `http://localhost`, casso tenha setado a `APP_PORT` no arquivo `.env`, a url de acesso será `http://localhost:{APP_PORT}`´ .
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Uso
+
+### Cadastro e Login
+
+-   Acesse `/cadastro` para se cadastrar.
+-   Acesse `/entrar` para fazer login.
+
+### Gerenciamento de Chamados
+
+-   **Clientes**: Podem criar novos chamados acessando `/painel/chamados/novo` e visualizar seus chamados em `/tickets`.
+-   **Colaboradores**: Podem visualizar todos os chamados em `/painel/chamados` e responder a chamados específicos.
+
+### Envio de E-mails
+
+Quando um novo chamado é criado, todos os colaboradores cadastrados recebem um e-mail de notificação.
+
+## Estrutura do Projeto
+
+-   **Controllers**: Contém a lógica de controle da aplicação.
+-   **Models**: Representam as entidades do banco de dados.
+-   **Views**: Contém as páginas Blade para renderização no frontend.
+-   **Routes**: Define as rotas da aplicação.
+-   **Policies**: Gerencia as permissões de acesso.
+
+## Autorização
+
+### Policies
+
+As políticas de autorização são definidas em `app/Policies/TicketPolicy.php` e registradas em `app/Providers/AuthServiceProvider.php`.
+
+### Gates
+
+Os gates são definidos para assegurar que apenas clientes possam criar chamados e apenas colaboradores possam finalizar chamados. Estes gates são configurados em `app/Providers/AuthServiceProvider.php`.
+
+## Segurança
+
+-   **Validação de Entrada**: Todas as entradas do usuário são validadas nos controladores.
+-   **Autorização**: Uso de policies e gates para restringir ações a determinados tipos de usuários.
+-   **Senhas**: São armazenadas de forma segura usando bcrypt.
+
+## Localização
+
+A aplicação suporta localização em português do Brasil (pt-BR). Os arquivos de tradução estão localizados em `resources/lang/pt-BR`.
